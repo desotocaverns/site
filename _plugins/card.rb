@@ -47,7 +47,7 @@ module Jekyll
 
       def buttonify(content)
         content.sub!(/<p>(<a.+)<\/p>$/) do
-          %Q{<footer class="card-footer">#{$1.sub(/<a /, '<a class="card-button" ')}</footer>}
+          %Q{<div class="card-footer">#{$1.sub(/<a /, '<a class="card-button" ')}</div>}
         end
       end
 
@@ -58,11 +58,11 @@ module Jekyll
         endtag = @options[:url].nil? ? 'div' : 'a'
 
         output = %Q{<#{tag} class="card">
-  <header class="card-header">
+  <div class="card-header">
     <h1 class='card-title'>#{@options[:title]}</h1>
     #{@options[:price]}
     #{@options[:figure]}
-  </header>
+  </div>
   <div class="card-content">#{content}</div>
 </#{endtag}>}
       end
