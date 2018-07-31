@@ -5,11 +5,11 @@ module Jekyll
     class Card < BaseBlock
 
       def figure
-        figure_tag('card-figure') if @options[:image]
+        figure_tag(@options[:image], class: 'card-figure') if @options[:image]
       end
 
       def price
-        %Q{<div class="price">#{@options[:price]}</div>} if @options[:price]
+        content_tag(:div, @options[:price], class: 'price') if @options[:price]
       end
 
       def buttonize(content)
