@@ -87,15 +87,5 @@ module Jekyll
         super
       end
     end
-
-    class Test < BaseTag
-      def render(context)
-        super
-        @options.inspect
-      end
-    end
   end
 end
-
-
-Liquid::Template.register_tag('test', Jekyll::Tags::Test)

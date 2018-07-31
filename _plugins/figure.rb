@@ -9,5 +9,4 @@ module Jekyll
   end
 end
 
-
 Liquid::Template.register_tag('figure', Jekyll::Tags::Figure)

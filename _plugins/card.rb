@@ -53,5 +53,4 @@ module Jekyll
   end
 end
 
-
 Liquid::Template.register_tag('card', Jekyll::Tags::Card)
