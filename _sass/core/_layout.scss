@@ -1,0 +1,15 @@
+$radius: 4px;
+$card-padding: 20px;
+$block-elements: p, ul, ol, h1, h2, h3, h4, h5, h6, pre, table;
+$vertical-margin: 20px;
+$content-padding: 30px;
+
+* { box-sizing: border-box; }
+html {
+  background: $gray-02;
+}
+
+#{$block-elements} {
+  @include block-margin;
+}
+

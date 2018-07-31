@@ -1,0 +1,110 @@
+/* ========================================================================== *
+ * Card module
+ * -------------------------------------------------------------------------- */
+
+@mixin card {
+  border-radius: $radius;
+  //box-shadow:
+    //0 0 0 1px rgba($gray-11, .05),
+    //0 1px 3px rgba($gray-11, .15);
+  box-shadow: 0px 0px 10px 0px rgba(110, 123, 140, 0.3);
+}
+
+.card {
+  width: 250px;
+  background: $white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: opacity .2s, transform .2s;
+
+  @include collapse-bottom;
+  @include collapse-top;
+  @include card;
+
+  &[class*='columns'] {
+    position: relative;
+    z-index: 1;
+    flex-direction: row;
+
+    &:before {
+      content: '';
+      @include card;
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+  &-heading {
+    margin: 0;
+  }
+
+  &-content {
+    &:first-child *:first-child { margin-top: 0; }
+    padding: $card-padding;
+    flex-grow: 1;
+  }
+
+  &-header {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+    padding: $card-padding $card-padding 1px;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
+  &-footer p {
+    font-size: 12px;
+  }
+
+  &-well {
+    padding: $card-padding;
+    @include block-margin;
+    position: relative;
+    background: rgba($gray-07, .05);
+    box-shadow: 
+      0 0 0 1px rgba($gray-11, .05) inset,
+      0 1px 1px 0 rgba($gray-11, .1) inset;
+    border-radius: $radius;
+  }
+
+  &-divider {
+    width: calc(100% + calc(#{$card-padding}*2));
+    height: 1px;
+    background: rgba($gray-11, .1);
+    margin: 0 -#{$card-padding};
+    display: flex;
+  }
+
+  &-footer {
+    margin-bottom: 0;
+    align-items: baseline;
+    @include collapse-bottom;
+    font-size: 12px;
+    padding: 1px $card-padding $card-padding;
+    background: $gray-01;
+    border-radius: 0 0 $radius $radius;
+    box-shadow: 0 1px rgba($gray-11, .1) inset;
+    background-clip: padding-box;
+  }
+
+  // Keep footer (or form if it wraps the footer)
+  // nestled up against the card edges
+
+  &-figure {
+    max-width: 100%;
+    margin: 0;
+
+    img {
+      max-width: 100%;
+      border-top-left-radius: $radius;
+      border-top-right-radius: $radius;
+    }
+  }
+}
