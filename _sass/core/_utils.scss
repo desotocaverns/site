@@ -1,0 +1,46 @@
+// Collapse top margin
+@mixin collapse-top {
+  > *:first-child,
+  > *:first-child > *:first-child,
+  > *:first-child > *:first-child > *:first-child {
+    margin-top: 0;
+  }
+}
+
+// Collapse bottom margin
+@mixin collapse-bottom {
+  > *:last-child,
+  > *:last-child > *:last-child,
+  > *:last-child > *:last-child > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Until width media query mixin
+@mixin until($width) {
+  $width: $width - 1;
+  @media all and (max-width: $width) {
+    @content;
+  }
+}
+
+// At least width media query mixin
+@mixin at-least($width) {
+  @media all and (min-width: $width) {
+    @content;
+  }
+}
+
+// Between widths media query mixin
+@mixin between($small-width, $large-width) {
+  $large-width: $large-width - 1;
+  @media (max-width: $large-width) and (min-width: $small-width) {
+    @content;
+  }
+}
+
+@mixin block-margin ($margin: $vertical-margin) {
+  margin-top: $margin;
+  margin-bottom: $margin;
+}
+
