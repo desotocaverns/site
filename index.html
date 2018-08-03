@@ -2,7 +2,17 @@
 layout: home
 title: Home
 ---
-<h1>{% hours off-season %}</h1>
+<h4>Current Hours</h4>
+{% hours %}
+
+<h4>Hours</h4>
+{% hours default %}
+
+<h4>Summer Hours</h4>
+{% hours dst %}
+
+<h4>Off Season Hours January - February</h4>
+{% hours off-season %}
 
 <div class='columns'>
 
