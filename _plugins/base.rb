@@ -43,7 +43,7 @@ module Jekyll
       end
 
       def image_tag(src=@options[:image], options={})
-        options[:src] ||= src
+        options[:src] = image_path options[:src] || src
         tag(:img, options)
       end
 

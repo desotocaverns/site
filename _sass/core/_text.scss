@@ -1,0 +1,208 @@
+// Font size & spacing
+$base-size: 14px;
+$base-line-height: 1.5;
+
+// Fonts stacks
+$base-font: -apple-system, BlinkMacSystemFont, 'Avenir Next', Avenir, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+$mono-font: 'Roboto Mono', Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
+
+body,
+input,
+select,
+button,
+textarea {
+  color: $gray-10;
+  font-size: $base-size;
+  font-family: $base-font;
+  line-height: $base-line-height;
+  @include font-smoothing;
+}
+
+/* ===================================== *
+ * Heading
+ * ------------------------------------- */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+// 1.125 modular scale - http://www.modularscale.com/?16&px&1.125&web&text
+h1 { font-size: 80px; }
+h2 { font-size: 60px; }
+h3 { font-size: 35px; }
+h4 { font-size: 28px; }
+h5 { font-size: 24px; }
+h6 { 
+  font-size: 15px; 
+  text-transform: uppercase;
+}
+
+/* ===================================== *
+ * Blockquote
+ * ------------------------------------- */
+
+/* ===================================== *
+ * Inline
+ * ------------------------------------- */
+
+// Bold text
+b,
+strong {
+  font-weight: 700;
+}
+
+// Subscripts & superscripts
+sub,
+sup {
+  // Specified in % so that the sup/sup is the right size relative to the surrounding text
+  font-size: 75%;
+
+  // Zero out the line-height so that it doesn't interfere with the positioning that follows
+  line-height: 0;
+
+  // Where the magic happens: makes all browsers position the sup/sup properly, relative to the surrounding text
+  position: relative;
+
+  // Note that if you're using Eric Meyer's reset.css, this is already set and you can remove this rule
+  vertical-align: baseline;
+}
+
+// Move the superscripted text up
+sup {
+  top: -0.5em;
+}
+
+// Move the subscripted text down, but only half as far down as the superscript moved up
+sub {
+  bottom: -0.25em;
+}
+
+// Definitions & Abbreviations
+dfn[title],
+abbr[title] {
+  position: relative;
+  cursor: help;
+  font-style: normal;
+  text-decoration: none;
+  border-bottom: 1px dashed silver;
+
+  &:after,
+  &:before {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  &:after {
+    content: attr(title);
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    padding: 10px;
+    border-radius: $radius;
+    background: black;
+  }
+
+  &:before {
+    content: '';
+    left: calc(50% - 5px);
+    top: 100%;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 6px 5px;
+    border-color: transparent transparent black transparent;
+  }
+
+  &:hover:after,
+  &:hover:before {
+    opacity: 1;
+    z-index: 2;
+  }
+}
+
+// Links & buttons
+a,
+button {
+  color: inherit;
+  cursor: pointer;
+}
+
+a {
+  //@include inline-link;
+}
+
+/* ===================================== *
+ * Horizontal rule
+ * ------------------------------------- */
+
+hr {
+  border: solid $gray-04;
+  border-width: 1px 0 0 0;
+}
+
+/* ===================================== *
+ * Preformatted text
+ * ------------------------------------- */
+
+pre,
+code,
+kbd,
+samp {
+  font-family: $mono-font;
+  font-weight: 400;
+  direction: ltr;
+  text-align: left;
+  tab-size: 2;
+  hyphens: none;
+  tab-size: 2;
+  hyphens: none;
+}
+
+pre {
+  overflow: auto;
+  padding: 2px 6px;
+  border-radius: $radius;
+  background: white;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+:not(pre) > code,
+:not(pre) > kbd,
+:not(pre) > samp {
+  line-height: 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  border-radius: $radius;
+  padding: 1px 1px;
+  background: $shell-bg;
+  color: $shell-text;
+  //box-shadow: 0 0 0 1px silver inset;
+}
+
+/* ===================================== *
+ * Text alignment
+ * ------------------------------------- */
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
