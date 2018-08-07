@@ -3,7 +3,7 @@ module Jekyll
     class Hours < BaseTag
       def render(context)
         super
-        hours = @site.data['hours']
+        hours = @data['hours']
 
         h = hours[@args.first]
 

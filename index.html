@@ -2,33 +2,23 @@
 layout: home
 title: Home
 ---
-<h4>Current Hours</h4>
+{% header cave/cave-entrance.jpg %}
+# When's The Last Time You Said "WOW" and Meant it?
+
+button:[Buy Tickets](/prices#tickets)
+
 {% hours %}
-
-<h4>Hours</h4>
-{% hours default %}
-
-<h4>Summer Hours</h4>
-{% hours dst %}
-
-<h4>Off Season Hours January - February</h4>
-{% hours off-season %}
+{% endheader %}
 
 <div class='columns'>
 
 {% card "Cannon Wars" attractions/cannon-wars.jpg %}
-Something
-
-- asdf
-- asdfasd
-- adsfadsf
-
-[foo](/bar)
-*some text*
 {% endcard %}
 
 
 {% card .menu-item.narrow "Harvest Salad" $4.99 %}
 A lettuce blend (green and red leaf, tangos, loll rosa, Batavia and oak lettuce), cherry tomatoes, topped with cheeses.
 {% endcard %}
+
+{% event_card hsh %}
 </div>

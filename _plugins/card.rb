@@ -5,17 +5,11 @@ module Jekyll
     class Card < BaseBlock
 
       def figure
-        figure_tag(@options[:image], class: 'card-figure') if @options[:image]
+        figure_tag(@options["image"], class: 'card-figure') if @options["image"]
       end
 
       def price
-        content_tag(:div, @options[:price], class: 'price') if @options[:price]
-      end
-
-      def buttonize(content)
-        content.gsub(/button:(<a.+?\/a>)/) do
-          %Q{#{$1.sub(/<a /, '<a class="card-button" ')}}
-        end
+        content_tag(:div, @options["price"], class: 'price') if @options["price"]
       end
 
       def footerize(content)
@@ -29,24 +23,11 @@ module Jekyll
       end
 
       def html(content)
-        content = buttonize content
-        content = footerize content
-
-        tag = @options[:url].nil? ? 'div' : %Q{a href="#{@options[:url]}"}
-        endtag = @options[:url].nil? ? 'div' : 'a'
-
-        output = %Q{<#{tag} class="card #{@options[:class].join(' ')}">
-  #{figure}
-  <div class="card-header">
-    <h4 class='card-heading'>#{@options[:title]}</h4>
-    #{price}
-  </div>
-  <div class="card-content">#{content}</div>
-  #{@footer}
-</#{endtag}>}
+        card { buttonize content }
       end
 
       def render(context)
+        @options["class"].push "card"
         html markdown(super)
       end
     end

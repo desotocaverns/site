@@ -7,6 +7,12 @@ module Jekyll
         Kramdown::Document.new(str).to_html
       end
 
+      def buttonize(content)
+        content.gsub(/button:(<a.+?\/a>)/) do
+          %Q{#{$1.sub(/<a /, '<a class="button" ')}}
+        end
+      end
+
       def extract_args
         @markup.split(/(".+?")/).reject(&:empty?).each do |arg|
           if arg.match(/"/)
@@ -20,26 +26,38 @@ module Jekyll
       def process_args
         extract_args
 
-        @options[:title] = @text[0]
-        @options[:description] = @text[1]
+        @options["title"] = @text[0]
+        @options["subtitle"] = @text[1]
 
         @args.each do |arg|
           if arg.match(/^\.\S+/)
-            @options[:class].concat arg.gsub('.',' ').split(' ')
+            @options["class"].concat arg.gsub('.',' ').split(' ')
           elsif arg.match(/^\$/)
-            @options[:price] = arg
+            @options["price"] = arg
           elsif arg.match(/\.(jpg|jpeg|png|gif)/)
-            @options[:image] = arg
+            @options["image"] = arg
           elsif arg.match(/(vimeo|youtube|\.mp4)/)
-            @options[:video] = arg
+            @options["video"] = arg
           elsif arg.match(/:\/\//) || arg.match(/^\//)
-            @options[:url] = arg
+            @options["url"] = arg
           end
         end
       end
 
       def image_path(path)
         File.join @config["baseurl"], @config["image_dir"], path
+      end
+
+      def card(&block)
+        header = ''
+        header << image_tag(@options["image"], class: 'header-background') if @options["image"]
+        header << content_tag(:h6, class: 'card-sub-title') { @options["subtitle"] } if @options["subtitle"]
+        header << content_tag(:h4, class: 'card-title') { @options["title"] }
+
+        content_tag(:div, class: @options["class"]) {
+          content_tag(:header, class: 'card-header') { header } +
+          content_tag(:div, class: 'card-content', &block)
+        }
       end
 
       def image_tag(src=@options[:image], options={})
@@ -55,7 +73,8 @@ module Jekyll
         html_options, url, name = url, name, nil if block_given?
         html_options ||= {}
         html_options[:href] ||= url
-        puts [name, html_options].inspect
+
+        content_tag :a, name || url, html_options, &block
       end
         
       def content_tag(name, content_or_options_with_block = nil, options = nil, &block)
@@ -118,7 +137,7 @@ module Jekyll
       def initialize(tag_name, markup, tokens)
         super
         @markup = markup
-        @options = { class: [] }
+        @options = { "class" => [] }
         @args = []
         @text = []
         process_args
@@ -126,6 +145,8 @@ module Jekyll
 
       def render(context)
         @site = context.registers[:site]
+        @page = context.registers[:page]
+        @data = @site.data
         @config = @site.config
       end
     end
@@ -136,7 +157,7 @@ module Jekyll
       def initialize(tag_name, markup, tokens)
         super
         @markup = markup
-        @options = { class: [] }
+        @options = { "class" => [] }
         @args = []
         @text = []
         process_args
@@ -144,6 +165,8 @@ module Jekyll
 
       def render(context)
         @site = context.registers[:site]
+        @page = context.registers[:page]
+        @data = @site.data
         @config = @site.config
         super
       end
