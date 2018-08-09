@@ -48,15 +48,26 @@ module Jekyll
         File.join @config["baseurl"], @config["image_dir"], path
       end
 
+      def header_image(image)
+        image_tag(image, class: 'header-image') +
+        content_tag(:span, style: "background-image: url(#{image_path(image)}", class: 'header-bg') {''}
+      end
+
       def card(&block)
         header = ''
-        header << image_tag(@options["image"], class: 'header-background') if @options["image"]
-        header << content_tag(:h6, class: 'card-sub-title') { @options["subtitle"] } if @options["subtitle"]
-        header << content_tag(:h4, class: 'card-title') { @options["title"] }
+        if @options["image"]
+          @options["class"].push "photo-card"
+          header << header_image(@options["image"])
+        end
+        header << content_tag(:h6, class: 'card-subtitle') { @options["subtitle"] } if @options["subtitle"]
+        header << content_tag(:h4, class: 'card-title') { @options["title"] } if @options["title"]
+
+        unless header.empty?
+          header = content_tag(:header, class: "card-header #{"photo-header" if @options["image"]}") { header }
+        end
 
         content_tag(:div, class: @options["class"]) {
-          content_tag(:header, class: 'card-header') { header } +
-          content_tag(:div, class: 'card-content', &block)
+          header + content_tag(:div, class: 'card-content', &block)
         }
       end
 

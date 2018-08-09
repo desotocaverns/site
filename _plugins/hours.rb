@@ -22,7 +22,7 @@ module Jekyll
 
         h = Array(h).join("<br>")
         
-        content_tag(:p, h)
+        content_tag(:p, h, class: 'hours')
 
       end
     end

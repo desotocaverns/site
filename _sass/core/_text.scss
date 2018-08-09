@@ -1,8 +1,9 @@
 // Font size & spacing
-$base-size: 14px;
+$base-size: 13px;
 $base-line-height: 1.5;
 
 // Fonts stacks
+$heading-font: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 $base-font: -apple-system, BlinkMacSystemFont, 'Avenir Next', Avenir, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 $mono-font: 'Roboto Mono', Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
 
@@ -16,6 +17,13 @@ textarea {
   font-family: $base-font;
   line-height: $base-line-height;
   @include font-smoothing;
+
+  @include at-least($medium-width) {
+    font-size: $base-size + 1;
+  }
+  @include at-least($max-width) {
+    font-size: $base-size + 3;
+  }
 }
 
 /* ===================================== *
@@ -28,18 +36,21 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 600;
+  font-weight: 700;
+  font-family: $heading-font;
 }
 
 // 1.125 modular scale - http://www.modularscale.com/?16&px&1.125&web&text
-h1 { font-size: 80px; }
-h2 { font-size: 60px; }
-h3 { font-size: 35px; }
-h4 { font-size: 28px; }
-h5 { font-size: 24px; }
+h1 { font-size: 3em; margin: 1.2em 0; }
+h2 { font-size: 2.5em; margin: 1em 0; }
+h3 { font-size: 2em; margin: .8em 0; }
+h4 { font-size: 1.6em; margin: .5em 0; }
+h5 { font-size: 1.4em; margin: .3em 0; }
 h6 { 
-  font-size: 15px; 
+  font-size: .9em; 
   text-transform: uppercase;
+  margin: .2em 0;
+  letter-spacing: 1.1px;
 }
 
 /* ===================================== *

@@ -3,20 +3,30 @@
  * -------------------------------------------------------------------------- */
 
 @mixin card {
-  border-radius: $radius;
   //box-shadow:
     //0 0 0 1px rgba($gray-11, .05),
     //0 1px 3px rgba($gray-11, .15);
-  box-shadow: 0px 0px 10px 0px rgba(110, 123, 140, 0.3);
+  box-shadow: 0px 0px 10px 0px rgba(#000, 0.3);
+}
+
+@mixin card-padding($top: $card-padding, $right: $card-padding, $bottom: $card-padding, $left: $card-padding) {
+  padding: $top $right $bottom $left;
+  $multiple: 2;
+
+  @include at-least($medium-width) {
+    padding: ($top*$multiple) ($right*$multiple) ($bottom*$multiple) ($left*$multiple);
+  }
 }
 
 .card {
+  border-radius: $radius;
   background: $white;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  transition: opacity .2s, transform .2s;
+  transform: translate3d(0,0,0);
 
   @include collapse-bottom;
   @include collapse-top;
@@ -44,8 +54,12 @@
   }
 
   &-content {
-    &:first-child *:first-child { margin-top: 0; }
-    padding: $card-padding;
+    *:first-child { margin-top: 0; }
+    *:last-child { margin-bottom: 0; }
+    @include card-padding;
+    &:not(&:first-child) {
+      padding-top: 5px;
+    }
     flex-grow: 1;
   }
 
@@ -53,9 +67,12 @@
     display: flex;
     flex-flow: row wrap;
     align-items: baseline;
-    padding: $card-padding $card-padding 1px;
+    overflow: hidden;
+    @include card-padding($bottom: .3em);
     justify-content: space-between;
-    margin-bottom: 0;
+
+    *:first-child { margin-top: 0; }
+    *:last-child { margin-bottom: 0; }
   }
 
   &-footer p {
@@ -88,7 +105,6 @@
     font-size: 12px;
     padding: 1px $card-padding $card-padding;
     background: $gray-01;
-    border-radius: 0 0 $radius $radius;
     box-shadow: 0 1px rgba($gray-11, .1) inset;
     background-clip: padding-box;
   }
@@ -96,14 +112,35 @@
   // Keep footer (or form if it wraps the footer)
   // nestled up against the card edges
 
-  &-figure {
-    max-width: 100%;
-    margin: 0;
+  &.photo-card {
+    background: transparent;
 
-    img {
-      max-width: 100%;
-      border-top-left-radius: $radius;
-      border-top-right-radius: $radius;
+    .card-content {
+      background: $white;
+      flex-grow: 0;
     }
+
+    .card-header {
+      box-shadow: 0 0 0 1px rgba(#fff, .2) inset;
+    }
+
+    &:hover {
+      .header-bg {
+        transform: scale(1);
+      }
+    }
+  }
+
+  &.feature {
+    margin-top: -($card-padding);
+    margin-bottom: -($card-padding);
+    border-radius: 10px;
+
+    .card-header { border-radius: 10px 10px 0 0; }
+    .card-content { border-radius: 0 0 10px 10px; }
+
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 20px 1px rgba(#000, 0.3);
   }
 }

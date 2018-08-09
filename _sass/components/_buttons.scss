@@ -1,0 +1,14 @@
+.button {
+  background: #fff;
+  text-decoration: none;
+  text-shadow: none;
+  color: $gray-12;
+  font-weight: bold;
+  padding: .6em 1.5em;
+  border-radius: $radius * 3;
+}
+.button-alt {
+  @extend .button;
+  color: $yellow-02;
+  border: 2px solid $yellow-02;
+}

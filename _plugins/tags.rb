@@ -22,7 +22,9 @@ module Jekyll
 
     class Header < BaseBlock
       def render(context)
-        content_tag(:header, class: 'page-header') { buttonize markdown super } + image_tag(@options["image"], class: 'header-background')
+        content_tag(:header, class: 'page-header photo-header') { 
+          buttonize(markdown(super)) + header_image(@options["image"])
+        } 
       end
     end
 
