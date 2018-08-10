@@ -1,27 +1,8 @@
 .columns {
-  display: flex;
-  justify-content: space-between;
-  > * { flex: 1; }
-}
-
-.page-feature {
-  display: flex;
-  justify-content: center;
-  background: $gray-13;
-  > * { flex: 1; }
-  
-  .card:not(.feature) {
-    color: #fff;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-    max-width: ($max-width - 200)/3;
-    h4 { color: $accent-light; }
-    h6 { color: $gray-04; }
-  }
-
-  .feature { 
-    max-width: 500px; 
-    text-align: center;
+  @include at-least($small-width) {
+    display: flex;
+    justify-content: space-between;
+    > * { flex: 1; }
   }
 }
+

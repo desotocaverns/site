@@ -22,8 +22,14 @@ module Jekyll
 
     class Header < BaseBlock
       def render(context)
+        content = buttonize(markdown(super))
+
+        content = content.gsub(/(\/h\d>)(\s+<p>.+)/m) do
+          %Q{#{$1}<div class='header-call-to-action'>#{$2}</div>}
+        end
+
         content_tag(:header, class: 'page-header photo-header') { 
-          buttonize(markdown(super)) + header_image(@options["image"])
+           content + header_image(@options["image"])
         } 
       end
     end
@@ -36,9 +42,9 @@ module Jekyll
         @options["subtitle"] = "Featured Event"
         @options["image"] = File.join "events", @options["url"], @options["image"]
 
-        content = content_tag(:div, class: 'event-date') { @options["dates"] }
+        content = content_tag(:h5, class: 'event-date') { @options["dates"] }
         content << content_tag(:p) { @options["description"] }
-        content << link_to("Learn More &rarr;", @options["url"], class: 'button-alt')
+        content << content_tag(:p) { link_to("Learn More &rarr;", @options["url"], class: 'button-alt') }
 
         card { content }
       end

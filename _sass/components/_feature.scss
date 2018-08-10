@@ -1,0 +1,48 @@
+.page-feature {
+  display: flex;
+  background: $gray-13;
+  border-top: 1px solid rgba(#fff, .2);
+  flex-flow: column;
+  flex: 1 0 auto;
+
+  @include at-least($small-width) {
+    flex-flow: row;
+    justify-content: center;
+    > * { flex: 1; }
+  }
+  
+  .card:not(.feature) {
+    color: #fff;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    @include at-least($small-width) {
+      max-width: ($max-width - 200)/3;
+    }
+
+    h4,h5 { color: $accent-light; }
+    h6 { color: $gray-04; }
+  }
+
+  .feature { 
+    margin: 0 1em;
+    @include at-least($small-width) {
+      max-width: 500px; 
+    }
+  }
+}
+
+.card.feature {
+  @include at-least($small-width) {
+    margin-top: -($card-padding);
+    margin-bottom: -($card-padding);
+    border-radius: 10px;
+  }
+
+  .card-header { border-radius: 10px 10px 0 0; }
+  .card-content { border-radius: 0 0 10px 10px; }
+
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 20px 1px rgba(#000, 0.3);
+}

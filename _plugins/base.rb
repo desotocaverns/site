@@ -61,6 +61,7 @@ module Jekyll
         end
         header << content_tag(:h6, class: 'card-subtitle') { @options["subtitle"] } if @options["subtitle"]
         header << content_tag(:h4, class: 'card-title') { @options["title"] } if @options["title"]
+        header << @options["header-content"] if @options["header-content"]
 
         unless header.empty?
           header = content_tag(:header, class: "card-header #{"photo-header" if @options["image"]}") { header }

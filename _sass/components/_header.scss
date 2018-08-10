@@ -13,28 +13,46 @@ header {
 }
 
 .page-header {
-  min-height: 60vh;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; 
-  flex-flow: column;
+  padding: 0 calc(50% - 400px) 4vh;
   text-align: center;
-  padding-bottom: 4vh;
+  align-items: center;
+  flex-flow: row wrap;
+  display: flex;
 
-  font-size: 1.8em;
+  @include at-least($small-width) {
+    min-height: 30vh;
+  }
+  @include at-least($medium-width) {
+    min-height: 40vh;
+  }
+  @include at-least($max-width) {
+    padding: 0 calc(50% - #{$max-width/2}) 4vh;
+    min-height: 50vh;
+  }
 
   .header-bg {
     animation: ken-burns $timing 6.5s forwards;
     &:before { content: ""; }
   }
+  > * {
+    width: 100%;
+  }
 
   h1 {
     margin-bottom: 1em;
-    max-width: $max-width;
-    line-height: 1.2em;
+    line-height: 1.1em;
     font-weight: bold;
+    font-size: 2.5em;
+
+    @include at-least($small-width) {
+      font-size: 3.5em;
+    }
+    @include at-least($medium-width) {
+      font-size: 5em;
+    }
   }
+
   .hours {
     font-size: 16px;
     width: 100%;
@@ -44,6 +62,10 @@ header {
 
 .header-image {
   display: none;
+}
+
+.header-call-to-action {
+  align-self: flex-end;
 }
 
 .header-bg {
@@ -61,23 +83,13 @@ header {
 }
 
 .photo-header {
-  background: none;
-  flex-flow: column;
-  min-height: 200px;
-  justify-content: flex-end;
-  flex-grow: 1;
   text-shadow: rgba(#000, .4) 0 0 10px;
-
-  .header-bg {
-    transform: scale(1.15);
-    transition: transform $timing 1s;
-  }
 
   .card-subtitle {
     margin-bottom: 0;
   }
   .card-title {
-    margin-top: .1em;
+    margin: 0 0 .4em;
   }
 
   .header-bg {

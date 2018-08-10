@@ -1,6 +1,6 @@
 // Font size & spacing
 $base-size: 13px;
-$base-line-height: 1.5;
+$base-line-height: 1.45;
 
 // Fonts stacks
 $heading-font: "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -41,16 +41,22 @@ h6 {
 }
 
 // 1.125 modular scale - http://www.modularscale.com/?16&px&1.125&web&text
-h1 { font-size: 3em; margin: 1.2em 0; }
-h2 { font-size: 2.5em; margin: 1em 0; }
-h3 { font-size: 2em; margin: .8em 0; }
-h4 { font-size: 1.6em; margin: .5em 0; }
-h5 { font-size: 1.4em; margin: .3em 0; }
+h1 { font-size: 5em; margin: 1.4rem 0; }
+h2 { font-size: 3em; margin: 1.4rem 0; }
+h3 { font-size: 2em; margin: 1.4rem 0; }
+h4 { font-size: 1.6em; margin: 1.4rem 0; }
+h5 { font-size: 1.3em; margin: 1.4rem 0; }
 h6 { 
-  font-size: .9em; 
+  font-size: .8em; 
   text-transform: uppercase;
   margin: .2em 0;
   letter-spacing: 1.1px;
+  font-weight: normal;
+  opacity: .7;
+}
+
+#{$headings} {
+  line-height: 1.2;
 }
 
 /* ===================================== *

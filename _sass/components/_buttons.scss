@@ -6,6 +6,7 @@
   font-weight: bold;
   padding: .6em 1.5em;
   border-radius: $radius * 3;
+  display: inline-block;
 }
 .button-alt {
   @extend .button;

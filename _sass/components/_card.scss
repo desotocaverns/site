@@ -11,10 +11,13 @@
 
 @mixin card-padding($top: $card-padding, $right: $card-padding, $bottom: $card-padding, $left: $card-padding) {
   padding: $top $right $bottom $left;
-  $multiple: 2;
 
   @include at-least($medium-width) {
-    padding: ($top*$multiple) ($right*$multiple) ($bottom*$multiple) ($left*$multiple);
+    padding: ($top*1.5) ($right*1.5) ($bottom*1.5) ($left*1.5);
+  }
+
+  @include at-least($max-width) {
+    padding: ($top*2) ($right*2) ($bottom*2) ($left*2);
   }
 }
 
@@ -54,13 +57,13 @@
   }
 
   &-content {
+    flex-grow: 1;
     *:first-child { margin-top: 0; }
     *:last-child { margin-bottom: 0; }
     @include card-padding;
-    &:not(&:first-child) {
-      padding-top: 5px;
-    }
-    flex-grow: 1;
+    //&:not(&:first-child) {
+      //padding-top: 5px;
+    //}
   }
 
   &-header {
@@ -68,8 +71,8 @@
     flex-flow: row wrap;
     align-items: baseline;
     overflow: hidden;
-    @include card-padding($bottom: .3em);
     justify-content: space-between;
+    @include card-padding($bottom: .3em);
 
     *:first-child { margin-top: 0; }
     *:last-child { margin-bottom: 0; }
@@ -90,24 +93,28 @@
     border-radius: $radius;
   }
 
-  &-divider {
+  hr {
     width: calc(100% + calc(#{$card-padding}*2));
     height: 1px;
     background: rgba($gray-11, .1);
-    margin: 0 -#{$card-padding};
+    margin: 1em -#{$card-padding};
     display: flex;
+    @include at-least($medium-width) {
+      width: calc(100% + calc(#{$card-padding*2}*2));
+      margin: 2em -#{$card-padding*2};
+    }
   }
 
-  &-footer {
-    margin-bottom: 0;
-    align-items: baseline;
-    @include collapse-bottom;
-    font-size: 12px;
-    padding: 1px $card-padding $card-padding;
-    background: $gray-01;
-    box-shadow: 0 1px rgba($gray-11, .1) inset;
-    background-clip: padding-box;
-  }
+  //&-footer {
+    //margin-bottom: 0;
+    //align-items: baseline;
+    //@include collapse-bottom;
+    //font-size: 12px;
+    //padding: 1px $card-padding $card-padding;
+    //background: $gray-01;
+    //box-shadow: 0 1px rgba($gray-11, .1) inset;
+    //background-clip: padding-box;
+  //}
 
   // Keep footer (or form if it wraps the footer)
   // nestled up against the card edges
@@ -119,9 +126,16 @@
       background: $white;
       flex-grow: 0;
     }
+    .card-title {
+      font-size: 2em;
+    }
 
     .card-header {
       box-shadow: 0 0 0 1px rgba(#fff, .2) inset;
+      min-height: 200px;
+      justify-content: flex-end;
+      flex-flow: column;
+      background: none;
     }
 
     &:hover {
@@ -131,16 +145,4 @@
     }
   }
 
-  &.feature {
-    margin-top: -($card-padding);
-    margin-bottom: -($card-padding);
-    border-radius: 10px;
-
-    .card-header { border-radius: 10px 10px 0 0; }
-    .card-content { border-radius: 0 0 10px 10px; }
-
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 0 20px 1px rgba(#000, 0.3);
-  }
 }
