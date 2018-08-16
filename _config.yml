@@ -27,6 +27,7 @@ github_username:  desotocaverns
 markdown: kramdown
 plugins:
   - jekyll-feed
+  - esvg
 sass:
   sass_dir: _sass
   style: compressed
