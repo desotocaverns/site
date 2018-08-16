@@ -1,6 +1,11 @@
 # Normal Hours - Daylight Savings time ends
-default: Open Daily 10am - 4:30pm (Sunday 1pm - 4:30pm)
-dst: Open Daily 9am - 5:30pm (Sunday 1pm - 5:30pm)
+default: 
+  - "10am - 4:30pm"
+  - "Sunday 1pm - 4:30pm"
+dst: 
+  - "Mon - Sat: 9am - 5:30pm"
+  - "Sun: 1pm - 5:30pm"
 off-season:
-  - Open Saturday 10am - 4:30pm & Sunday 1pm - 4:30pm
-  - Open Monday - Friday 8am - 4:30pm (By Group Reservation)
+  - "Sat: 10am - 4:30pm"
+  - "Sun: 1pm - 4:30pm"
+  - "Group Reservations: Monday - Friday, 8am - 4:30pm"

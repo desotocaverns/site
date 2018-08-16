@@ -6,3 +6,29 @@
   }
 }
 
+@mixin column-padding($top: $card-padding, $right: $card-padding, $bottom: $card-padding, $left: $card-padding) {
+  padding: $top $right/2 $bottom $left/2;
+
+  @include at-least($small-width) {
+    padding: ($top) ($right/1.5) ($bottom) ($left/1.5);
+    &:first-child{ padding-left: 0; }
+    &:last-child{ padding-right: 0; }
+  }
+  @include at-least($medium-width) {
+    padding: ($top*1.5) ($right/1.2) ($bottom*1.5) ($left/1.2);
+    &:first-child{ padding-left: 0; }
+    &:last-child{ padding-right: 0; }
+  }
+  @include at-least($max-width) {
+    padding: ($top*2) ($right) ($bottom*2) ($left);
+    &:first-child{ padding-left: 0; }
+    &:last-child{ padding-right: 0; }
+  }
+}
+
+.column {
+  @include column-padding;
+  width: 1/3;
+  flex-basis: 1/3;
+}
+

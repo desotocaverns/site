@@ -4,13 +4,10 @@ module Jekyll
       def render(context)
         super
         hours = @data['hours']
-
-        h = hours[@args.first]
-
         now = Time.now
 
         # DST Hours
-        h ||= if now.isdst
+        h = hours[@args.first] || if now.isdst
           hours["dst"]
         # Off Season January & February
         elsif hours["off-season"] & [1,2].include?(now.month)
@@ -22,7 +19,7 @@ module Jekyll
 
         h = Array(h).join("<br>")
         
-        content_tag(:p, h, class: 'hours')
+        content_tag(:span, h, class: 'hours')
 
       end
     end

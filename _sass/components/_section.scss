@@ -1,0 +1,10 @@
+.container {
+  padding: $content-padding $content-padding/2;
+
+  @include at-least($small-width) {
+    padding: $content-padding * 2 $content-padding;
+  }
+  @include at-least($max-width + ($content-padding * 2)) {
+    padding: 75px calc(50% - #{$max-width/2});
+  }
+}

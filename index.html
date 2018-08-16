@@ -3,34 +3,36 @@ layout: home
 title: Home
 ---
 {% header cave/cave-entrance.jpg %}
-# When's The Last Time You Said "WOW" and Meant it?
-
+# When's the last time you said "WOW" and meant it?
 button:[Buy Tickets](/prices#tickets)
 
-{% hours %}
 {% endheader %}
 
-<div class='page-feature'>
-{% card %}
-###### Directions & Contact
+<section class='page-feature'>
+<div class='columns'>
+{% box .column %}
+###### Visitor Info
 
-#### Visit Our Park
-5181 DeSoto Caverns Park  
-Childersburg, AL 35044  
+#### Park Hours
+{% hours %}
 
-#### Say Hello
-Phone: (256) 378-7252  
-Email: info@desotocaverns.com
-{% endcard %}
+#### Directions & Contact
+{% contact address %}
+
+{% contact phone %}  
+{% contact email %}
+
+{% endbox %}
 
 {% event_card hsh .feature %}
 
-{% card %}
+{% box .column %}
 ###### Latest News
 
 #### DeSoto Caverns a Historic Shelter
 Along with the world, we are rejoicing today that the Thai soccer team has emerged from their “wild cave" exploration to rejoin their families…
 
 [Continue reading &raquo;](/#)
-{% endcard %}
+{% endbox %}
 </div>
+</section>

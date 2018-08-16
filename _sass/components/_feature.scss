@@ -1,45 +1,56 @@
 .page-feature {
-  display: flex;
   background: $gray-13;
   border-top: 1px solid rgba(#fff, .2);
-  flex-flow: column;
-  flex: 1 0 auto;
+
+  padding: 0 $content-padding/2;
 
   @include at-least($small-width) {
-    flex-flow: row;
-    justify-content: center;
-    > * { flex: 1; }
+    padding: 0 $content-padding;
   }
-  
-  .card:not(.feature) {
-    color: #fff;
-    border-radius: 0;
-    box-shadow: none;
-    background: transparent;
-    @include at-least($small-width) {
-      max-width: ($max-width - 200)/3;
-    }
+  @include at-least($max-width + ($content-padding*2)) {
+    padding: 0 calc(50% - #{$max-width/2});
+  }
 
+  //display: flex;
+  //flex-flow: column;
+  //@include at-least($small-width) {
+    //padding: 0 4vw;
+    //flex-flow: row;
+    //justify-content: center;
+    //> * { flex: 1 0 10%; }
+  //}
+  //@include at-least($max-width) {
+    //padding: 0 calc(50% - #{$max-width/2});
+  //}
+
+  .box {
+    color: #fff;
     h4,h5 { color: $accent-light; }
     h6 { color: $gray-04; }
   }
 
   .feature { 
-    margin: 0 1em;
+    margin: 0 $card-padding/2;
     @include at-least($small-width) {
-      max-width: 500px; 
+      max-width: 40vw; 
     }
   }
 }
 
 .card.feature {
   @include at-least($small-width) {
-    margin-top: -($card-padding);
-    margin-bottom: -($card-padding);
+    flex-basis: 15%;
     border-radius: 10px;
+    margin-top: $card-padding;
+    margin-bottom: $card-padding;
+
+    &:not(:first-child) {
+      margin-top: - $card-padding;
+      margin-bottom: - $card-padding;
+    }
   }
 
-  .card-header { border-radius: 10px 10px 0 0; }
+  .card-header { border-radius: 10px 10px 0 0; flex-grow: 1; }
   .card-content { border-radius: 0 0 10px 10px; }
 
   position: relative;

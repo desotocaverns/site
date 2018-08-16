@@ -1,9 +1,9 @@
 $radius: 4px;
-$card-padding: 1.4em;
+$card-padding: 25px;
 $block-elements: p, ul, ol, pre, table;
 $headings: h1, h2, h3, h4, h5, h6;
-$vertical-margin: 1.4em;
-$content-padding: 2em;
+$vertical-margin: 25px;
+$content-padding: 30px;
 $duration: .25s;
 $timing: cubic-bezier(0.2, 0.0, 0.2, 1);
 
@@ -24,4 +24,15 @@ main {
 
 #{$block-elements} {
   @include block-margin;
+}
+
+.soft-break {
+  display: block;
+  @include at-least($small-width) {
+    display: inline;
+    &:before { content: ", " }
+  }
+  br + & {
+    display: none;
+  }
 }

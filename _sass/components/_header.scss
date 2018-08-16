@@ -14,21 +14,24 @@ header {
 
 .page-header {
   width: 100%;
-  padding: 0 calc(50% - 400px) 4vh;
   text-align: center;
   align-items: center;
   flex-flow: row wrap;
   display: flex;
+  padding: 4vh 5vw;
+  min-height: 30vh;
 
   @include at-least($small-width) {
-    min-height: 30vh;
+    min-height: 50vh;
+    padding: 4vh 5vw;
   }
   @include at-least($medium-width) {
-    min-height: 40vh;
+    min-height: 70vh;
+    padding: 5vh 10vw;
   }
   @include at-least($max-width) {
-    padding: 0 calc(50% - #{$max-width/2}) 4vh;
-    min-height: 50vh;
+    padding: 8vh calc(50% - #{$max-width/2}) 6vh;
+    min-height: 75vh;
   }
 
   .header-bg {
@@ -58,6 +61,14 @@ header {
     width: 100%;
     text-align: center;
   }
+
+  .button {
+    font-size: 1.2em;
+
+    @include at-least($small-width) {
+      font-size: 1.4em;
+    }
+  }
 }
 
 .header-image {
@@ -65,7 +76,7 @@ header {
 }
 
 .header-call-to-action {
-  align-self: flex-end;
+  //align-self: flex-end;
 }
 
 .header-bg {
