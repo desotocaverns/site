@@ -2,58 +2,53 @@
   background: $gray-13;
   border-top: 1px solid rgba(#fff, .2);
 
-  padding: 0 $content-padding/2;
-
-  @include at-least($small-width) {
-    padding: 0 $content-padding;
-  }
-  @include at-least($max-width + ($content-padding*2)) {
-    padding: 0 calc(50% - #{$max-width/2});
-  }
-
-  //display: flex;
-  //flex-flow: column;
-  //@include at-least($small-width) {
-    //padding: 0 4vw;
-    //flex-flow: row;
-    //justify-content: center;
-    //> * { flex: 1 0 10%; }
-  //}
-  //@include at-least($max-width) {
-    //padding: 0 calc(50% - #{$max-width/2});
-  //}
+  @extend .container;
 
   .box {
-    color: #fff;
+    color: $gray-06;
     h4,h5 { color: $accent-light; }
     h6 { color: $gray-04; }
   }
 
-  .feature { 
-    margin: 0 $card-padding/2;
-    @include at-least($small-width) {
-      max-width: 40vw; 
+  @include until-x-small {
+    text-align: center;
+  }
+}
+
+.feature-info {
+  @include at-small {
+    > * { 
+      flex-basis: 100%; 
+      flex-grow: 1;
     }
   }
 }
 
 .card.feature {
-  @include at-least($small-width) {
-    flex-basis: 15%;
-    border-radius: 10px;
-    margin-top: $card-padding;
-    margin-bottom: $card-padding;
+  border-radius: 10px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 20px 1px rgba(#000, 0.3);
+
+  @include at-x-small {
+    flex-basis: 100%;
+  }
+
+  @include at-small {
+    flex-basis: calc(45% - #{$large-gutter});
 
     &:not(:first-child) {
-      margin-top: - $card-padding;
-      margin-bottom: - $card-padding;
+      margin-top: - $container-padding;
+      margin-bottom: - $container-padding;
+    }
+  }
+  @include at-medium {
+    &:not(:first-child) {
+      margin-top: - ($container-padding + $card-padding);
+      margin-bottom: - ($container-padding + $card-padding);
     }
   }
 
   .card-header { border-radius: 10px 10px 0 0; flex-grow: 1; }
   .card-content { border-radius: 0 0 10px 10px; }
-
-  position: relative;
-  z-index: 2;
-  box-shadow: 0 0 20px 1px rgba(#000, 0.3);
 }

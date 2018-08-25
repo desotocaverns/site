@@ -1,6 +1,10 @@
 @keyframes ken-burns {
-  0%   { transform: translate3d(0,0,0) scale(1.25) }
-  100% { transform: translate3d(0,0,0) scale(1) }
+  0% { 
+    transform: translate3d(0,0,0) scale(1.25); 
+  }
+  100% { 
+    transform: translate3d(0,0,0) scale(1); 
+  }
 }
 
 header {
@@ -18,19 +22,21 @@ header {
   align-items: center;
   flex-flow: row wrap;
   display: flex;
-  padding: 4vh 5vw;
   min-height: 30vh;
+
+  @include padded-max-width;
 
   @include at-least($small-width) {
     min-height: 50vh;
-    padding: 4vh 5vw;
+    padding-bottom: 6vh;
   }
   @include at-least($medium-width) {
     min-height: 70vh;
-    padding: 5vh 10vw;
+    padding-bottom: 6vh;
   }
   @include at-least($max-width) {
-    padding: 8vh calc(50% - #{$max-width/2}) 6vh;
+    padding-top: 8vh; 
+    padding-bottom: 6vh;
     min-height: 75vh;
   }
 

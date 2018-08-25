@@ -1,10 +1,16 @@
 .container {
-  padding: $content-padding $content-padding/2;
+  padding-top: $card-padding;
+  padding-bottom: $card-padding;
 
   @include at-least($small-width) {
-    padding: $content-padding * 2 $content-padding;
+    padding-top: $content-padding;
+    padding-bottom: $content-padding;
   }
-  @include at-least($max-width + ($content-padding * 2)) {
-    padding: 75px calc(50% - #{$max-width/2});
+
+  @include at-least($medium-width) {
+    padding-top: $container-padding;
+    padding-bottom: $container-padding;
   }
+
+  @include padded-max-width;
 }

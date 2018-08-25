@@ -5,34 +5,6 @@ title: Home
 {% header cave/cave-entrance.jpg %}
 # When's the last time you said "WOW" and meant it?
 button:[Buy Tickets](/prices#tickets)
-
 {% endheader %}
 
-<section class='page-feature'>
-<div class='columns'>
-{% box .column %}
-###### Visitor Info
-
-#### Park Hours
-{% hours %}
-
-#### Directions & Contact
-{% contact address %}
-
-{% contact phone %}  
-{% contact email %}
-
-{% endbox %}
-
-{% event_card hsh .feature %}
-
-{% box .column %}
-###### Latest News
-
-#### DeSoto Caverns a Historic Shelter
-Along with the world, we are rejoicing today that the Thai soccer team has emerged from their “wild cave" exploration to rejoin their families…
-
-[Continue reading &raquo;](/#)
-{% endbox %}
-</div>
-</section>
+{% include home/feature.html %}

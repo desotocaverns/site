@@ -1,15 +1,49 @@
 $radius: 4px;
-$card-padding: 25px;
 $block-elements: p, ul, ol, pre, table;
 $headings: h1, h2, h3, h4, h5, h6;
 $vertical-margin: 25px;
+$card-padding: 25px;
 $content-padding: 30px;
+$container-padding: 50px;
 $duration: .25s;
 $timing: cubic-bezier(0.2, 0.0, 0.2, 1);
 
 $max-width: 1200px;
 $medium-width: 900px;
 $small-width: 700px;
+$x-small-width: 500px;
+$page-padding: calc(50vw - #{$max-width/2});
+
+@mixin padded-max-width() {
+  padding-left: $content-padding/2;
+  padding-right: $content-padding/2;
+
+  @include at-least($x-small-width) {
+    padding-left: $content-padding;
+    padding-right: $content-padding;
+  }
+  @include at-least($max-width + ($content-padding*2)) {
+    padding-left: $page-padding;
+    padding-right: $page-padding;
+  }
+}
+
+.collapse, .collapse-top {
+  @include collapse-top;
+}
+.collapse, .collapse-bottom {
+  @include collapse-bottom;
+}
+
+@mixin at-x-small { @include at-least($x-small-width) { @content; } }
+@mixin at-small   { @include at-least($small-width)   { @content; } }
+@mixin at-medium  { @include at-least($medium-width)  { @content; } }
+@mixin at-max     { @include at-least($max-width)     { @content; } }
+
+@mixin until-x-small { @include until($x-small-width) { @content; } }
+@mixin until-small   { @include until($small-width)   { @content; } }
+@mixin until-medium  { @include until($medium-width)  { @content; } }
+@mixin until-max     { @include until($max-width)     { @content; } }
 
 * { box-sizing: border-box; }
 html {

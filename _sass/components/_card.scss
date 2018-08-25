@@ -21,11 +21,6 @@
   }
 }
 
-.box {
-  @include collapse-bottom;
-  @include collapse-top;
-}
-
 .card {
   border-radius: $radius;
   background: $white;

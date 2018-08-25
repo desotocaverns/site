@@ -1,0 +1,298 @@
+/* ========================================================================== *
+ * Grid module
+ * -------------------------------------------------------------------------- */
+
+/* ===================================== *
+ * Utilities
+ * ------------------------------------- */
+
+$small-gutter : 10px;
+$medium-gutter: 20px;
+$large-gutter : 30px;
+$columns      : 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve';
+
+// Horizontal gutter mixin
+@mixin horizontal-gutter($amount) {
+  margin-left:  -$amount / 2;
+  margin-right: -$amount / 2;
+
+  > * {
+    margin-left:  $amount / 2;
+    margin-right: $amount / 2;
+  }
+}
+
+// Vertical gutter mixin
+@mixin vertical-gutter($amount) {
+  margin-bottom: -$amount;
+
+  > * {
+    margin-bottom: $amount;
+  }
+}
+
+/* ===================================== *
+ * Common
+ * ------------------------------------- */
+
+// Columns container
+[class*='columns'] {
+  display: flex;
+  flex-flow: row wrap;
+
+  > * { @extend .collapse-bottom; }
+}
+
+// Rows container
+[class*='rows'] {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+
+  > * { @extend .collapse; }
+}
+
+// Top-align columns in certain contexts
+form [class*='columns'] {
+  align-items: flex-start;
+}
+
+// Normal gutter
+.gutter {
+  @include horizontal-gutter($medium-gutter);
+
+  &.match {
+    @include vertical-gutter($medium-gutter);
+  }
+}
+
+// Small gutter
+.small-gutter {
+  @include horizontal-gutter($small-gutter);
+
+  &.match {
+    @include vertical-gutter($small-gutter);
+  }
+}
+
+// Large gutter
+.large-gutter {
+  @include horizontal-gutter($large-gutter);
+
+  &.match {
+    @include vertical-gutter($large-gutter);
+  }
+}
+
+// Flexible columns
+.flex {
+  flex: 1;
+}
+
+// Expanded items will be large as possible
+.grow { 
+  flex-grow: 1;
+}
+
+.flex-row {
+  display: flex;
+
+  // Add gutter between top level elements
+  &:not(.no-gutter) {
+    > * ~ * {
+      margin-left: 8px;
+    }
+  }
+  &.medium-gutter {
+    > * ~ * {
+      margin-left: $card-padding;
+    }
+  }
+}
+
+
+// Loop through columns
+@for $a from 1 through length($columns) {
+
+  // Define column expanse
+  $span: (length($columns) / $a);
+
+  // No gutter placeholders
+  %span-#{nth($columns, $a)} {
+    flex-basis: 100% / $span;
+  }
+
+  // Regular gutter placeholders
+  %span-#{nth($columns, $a)}-gutter {
+    flex-basis: calc(#{100% / $span} - #{$medium-gutter});
+  }
+
+  // Small gutter placeholders
+  %span-#{nth($columns, $a)}-small-gutter {
+    flex-basis: calc(#{100% / $span} - #{$small-gutter});
+  }
+
+  // Large gutter placeholders
+  %span-#{nth($columns, $a)}-large-gutter {
+    flex-basis: calc(#{100% / $span} - #{$large-gutter});
+  }
+
+  @if length($columns) % $a == 0 {
+
+    // Container-declared columns
+    .#{nth($columns, $a)}-columns {
+
+      // No gutter
+      > * {
+        @extend %span-#{nth($columns, $span)};
+      }
+
+      // Regular gutter
+      &.gutter > * {
+        @extend %span-#{nth($columns, $span)}-gutter;
+      }
+
+      // Small gutter
+      &.small-gutter > * {
+        @extend %span-#{nth($columns, $span)}-small-gutter;
+      }
+
+      // Large gutter
+      &.large-gutter > * {
+        @extend %span-#{nth($columns, $span)}-large-gutter;
+      }
+    }
+  }
+
+  // Loop through columns again
+  @for $b from 1 through length($columns) {
+
+    // Only create usable classnames
+    @if $a <= $b and length($columns) % $b == 0 {
+
+      // Define placeholder key
+      $key: length($columns) * ($a / $b);
+
+      // No gutter
+      .#{nth($columns, $a)}-of-#{nth($columns, $b)} {
+        @extend %span-#{nth($columns, $key)};
+      }
+
+      // Regular gutter
+      .gutter > .#{nth($columns, $a)}-of-#{nth($columns, $b)} {
+        @extend %span-#{nth($columns, $key)}-gutter;
+      }
+
+      // Small gutter
+      .small-gutter > .#{nth($columns, $a)}-of-#{nth($columns, $b)} {
+        @extend %span-#{nth($columns, $key)}-small-gutter;
+      }
+
+      // Large gutter
+      .large-gutter > .#{nth($columns, $a)}-of-#{nth($columns, $b)} {
+        @extend %span-#{nth($columns, $key)}-large-gutter;
+      }
+
+      // Alias for full-width columns
+      @if $key == length($columns) {
+
+        // No gutter
+        .span {
+          @extend %span-#{nth($columns, $key)};
+        }
+
+        // Regular gutter
+        .gutter > .span {
+          @extend %span-#{nth($columns, $key)}-gutter;
+        }
+
+        // Small gutter
+        .small-gutter > .span {
+          @extend %span-#{nth($columns, $key)}-small-gutter;
+        }
+
+        // Large gutter
+        .large-gutter > .span {
+          @extend %span-#{nth($columns, $key)}-large-gutter;
+        }
+      }
+    }
+  }
+}
+
+/* ===================================== *
+ * Vertical alignment
+ * ------------------------------------- */
+
+.top-aligned {
+  align-items: flex-start;
+  vertical-align: top;
+}
+
+.bottom-aligned {
+  align-items: flex-end;
+  vertical-align: bottom;
+}
+
+.baseline-aligned {
+  align-items: baseline;
+  vertical-align: baseline;
+}
+
+.start-aligned {
+  align-items: flex-start;
+}
+
+.center-aligned {
+  align-items: center;
+}
+
+.end-aligned {
+  align-items: flex-end;
+}
+
+/* ===================================== *
+ * Horizontal justification
+ * ------------------------------------- */
+
+.left-justified {
+  justify-items: flex-start;
+}
+
+.center-justified {
+  justify-items: center;
+}
+
+.right-justified {
+  justify-items: flex-end;
+}
+
+.push-right {
+  margin-left: auto;
+}
+
+.push-left {
+  margin-right: auto;
+}
+
+/* ===================================== *
+ * Breakpoints
+ * ------------------------------------- */
+
+[class*='columns'].flex-medium > * {
+  @include until($medium-width) {
+    flex-basis: 100%;
+  }
+}
+
+[class*='columns'].flex-small > * {
+  @include until($small-width) {
+    flex-basis: 100%;
+  }
+}
+
+[class*='columns'].flex-x-small > * {
+  @include until($x-small-width) {
+    flex-basis: 100%;
+  }
+}

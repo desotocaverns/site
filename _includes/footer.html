@@ -1,10 +1,41 @@
-<footer class="page-footer">
-  <section class='container park-info'>
-    <h6>Visitor Info</h6>
-    <div class='columns'>
-      <div class='column'><h5>Address</h5><p>{% contact address %}</p></div>
-      <div class='column'><h5>Park Hours</h5><p>{% hours %}</p><p><small>Groups may make reservations for hours outside our regular operating hours.</small></p></div>
-      <div class='column'><h5>Call Us</h5><p>{% contact phone %}</p></div>
+<footer class="page-footer park-info">
+  <div class='three-columns gutter match flex-small'>
+
+    <div>
+      <h5>Visitor Info</h5>
+      <p>Phone: {% contact phone %}<br>
+         Email: {% contact email %}</p>
+      <p>{% contact address %}</p>
+
+      <h5>Park Hours</h5>
+      <p>{% hours %}</p>
+      <p><small>Groups may reserve outside regular hours.</small></p>
     </div>
-  </section>
+
+    <div>
+      <h5>Quick Links</h5>
+      <nav class='rows'>
+        <a href="#">Plan Your Trip</a>
+        <a href="#">Join Our Team</a>
+        <a href="#">Specials</a>
+        <a href="#">About Us</a>
+        <a href="#">Camping</a>
+        <a href="#">FAQs</a>
+      </nav>
+    </div>
+
+    <div>
+      <h5>Connect with us</h5>
+      <nav class='rows'>
+        <a href="#">Facebook</a>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Pinterest</a>
+      </nav>
+      <h5>Join our Newsletter</h5>
+      {% include newsletter.html %}
+      <p><small>For news and special discounts</small></p>
+    </div>
+    
+  </div>
 </footer>

@@ -1,3 +1,6 @@
+if (document.readyState == 'interactive') { ready() }
+else document.addEventListener("DOMContentLoaded", ready )
+
 var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 function linkMaps() {
@@ -18,7 +21,8 @@ function unorphanize() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", function(event) { 
+function ready() {
   linkMaps()
   unorphanize()
-})
+}
+

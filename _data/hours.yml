@@ -1,9 +1,9 @@
 # Normal Hours - Daylight Savings time ends
 default: 
-  - "10am - 4:30pm"
-  - "Sunday 1pm - 4:30pm"
+  - "Mon-Sat: 10am - 4:30pm"
+  - "Sun: 1pm - 4:30pm"
 dst: 
-  - "Mon - Sat: 9am - 5:30pm"
+  - "Mon-Sat: 9am - 5:30pm"
   - "Sun: 1pm - 5:30pm"
 off-season:
   - "Sat: 10am - 4:30pm"
