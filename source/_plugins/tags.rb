@@ -1,4 +1,5 @@
-require 'pry-byebug'
+require './source/_plugins/base'
+
 module Jekyll
   module Tags
     class Figure < BaseTag
