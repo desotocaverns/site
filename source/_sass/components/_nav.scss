@@ -23,6 +23,7 @@ body {
     background: $nav-bg;
   }
 }
+
 .top-nav {
   background: $nav-bg;
 
@@ -55,14 +56,28 @@ body {
 }
 
 @include until-small {
+  .top-nav-container {
+    transform: translate3d(-$nav-menu-width, 0, 0);
+    width: 100vw + $nav-menu-width;
+    &:before {
+      display: block;
+      content: "Site Navigation";
+      font-size: 1.4em;
+      color: $gray-03;
+      padding: 1.1em 0;
+      text-align: center;
+      width: $nav-menu-width;
+    }
+    &:before, .nav-block, .mobile-info {
+      opacity: 0;
+      transition: $timing $duration*4 opacity;
+    }
+  }
+
   .top-nav {
-    height: 76px;
+    height: 70px;
     overflow: visible;
 
-    .nav-container {
-      transform: translate3d(-$nav-menu-width, 0, 0);
-      width: 100vw + $nav-menu-width;
-    }
 
     .nav-block {
       a {
@@ -77,15 +92,14 @@ body {
         border-top: 1px solid lighten($gray-13, 5);
       }
     }
+
     .mobile-info {
       position: relative;
       z-index: -1;
       max-width: $nav-menu-width;
       color: $gray-05;
-      opacity: 0;
       display: block;
       visibility: visible;
-      transition: $timing $duration*4 opacity;
 
       h5 {
         color: $gray-03;
@@ -105,8 +119,6 @@ body {
       width: $nav-menu-width;
       display: flex;
       flex-flow: row wrap;
-      opacity: 0;
-      transition: $timing $duration*4 opacity;
       position: relative;
       z-index: -1;
 
@@ -118,12 +130,10 @@ body {
   }
 
   .show-nav {
-    overflow: hidden;
     width: 100vw;
+    overflow: hidden;
 
-    .nav-container {
-      max-height: 100vh;
-      overflow-y: scroll;
+    .top-nav-container {
       text-align: center;
     }
 
@@ -134,8 +144,11 @@ body {
         z-index: 2;
       }
     }
-    .mobile-info, .nav-block {
+    .top-nav-container:before, .mobile-info, .nav-block {
       opacity: 1;
+    }
+    .toggle-nav {
+      transform: translate3d(-$nav-menu-width, 0, 0);
     }
   }
 }
@@ -160,6 +173,7 @@ body {
 }
 
 .toggle-nav {
+  transition: $timing $duration transform;
   position: absolute;
   top: 1em;
   left: .5em;
