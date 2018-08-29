@@ -1,7 +1,8 @@
 if (document.readyState == 'interactive') { ready() }
-else document.addEventListener("DOMContentLoaded", ready )
+else document.addEventListener( "DOMContentLoaded", ready )
 
 var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+var listening = {}
 
 function linkMaps() {
   if(!iOS) { return }
@@ -21,8 +22,22 @@ function unorphanize() {
   }
 }
 
+
+function matches ( el, selector ) {
+  return ( el.matches || el.matchesSelector || el.msMatchesSelector || el.mozMatchesSelector || el.webkitMatchesSelector || el.oMatchesSelector ).call( el, selector );
+}
+
+
+function listen() {
+  document.querySelector( '.toggle-nav' ).addEventListener( 'click', function( event ) {
+    document.querySelector('html').classList.toggle( 'show-nav' )
+    event.preventDefault()
+    event.stopPropagation()
+  })
+}
+
 function ready() {
   linkMaps()
   unorphanize()
+  listen()
 }
-

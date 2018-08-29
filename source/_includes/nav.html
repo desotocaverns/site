@@ -1,0 +1,34 @@
+<nav class='top-nav'>
+  <div class='nav-container'>
+    <div class='nav-block'>
+      {% link_to "Caverns" /caverns %}
+      {% link_to "Education" /education %}
+      {% link_to "Events" /events %}
+    </div>
+
+    {% link / .logo %}{% use_svg "logo", width: "120px" %}{% endlink %}
+
+    <div class='nav-block'>
+      {% link_to "Groups" /groups %}
+      {% link_to "Prices" /prices %}
+      {% link_to "Visitor Info" /visitor-info %}
+    </div>
+
+    <div class='mobile-info'>
+      <div>
+        <ul class='contact'>
+          <li>{% contact directions %}</li>
+          <li>{% contact phone %}</li>
+          <li>{% contact email %}</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Park Hours</h5>
+        <p>{% hours %}</p>
+        <p><small>Groups may reserve outside regular hours.</small></p>
+      </div>
+
+    </div>
+  </div>
+  <button class='toggle-nav' aria-label="View Navigation"><span class="icon"></span></button>
+</nav>

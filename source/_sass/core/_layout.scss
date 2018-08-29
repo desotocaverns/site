@@ -9,10 +9,14 @@ $duration: .25s;
 $timing: cubic-bezier(0.2, 0.0, 0.2, 1);
 
 $max-width: 1200px;
-$medium-width: 900px;
-$small-width: 700px;
+$medium-width: 950px;
+$small-width: 750px;
 $x-small-width: 500px;
 $page-padding: calc(50vw - #{$max-width/2});
+
+// Transition duration
+$duration: .25s;
+$timing: cubic-bezier(0.4, 0.0, 0.2, 1);
 
 @mixin padded-max-width() {
   padding-left: $content-padding/2;

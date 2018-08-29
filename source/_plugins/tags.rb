@@ -1,3 +1,4 @@
+require 'pry-byebug'
 module Jekyll
   module Tags
     class Figure < BaseTag
@@ -10,12 +11,13 @@ module Jekyll
     class LinkTo < BaseTag
       def render(context)
         super
-        link_to(@options["title"], @options["url"], class: options["class"])
+        link_to(@options["title"], @options["url"], class: @options["class"])
       end
     end
     
     class LinkBlock < BaseBlock
       def render(context)
+        super
         link_to(@options["url"], class: @options["class"]) { super }
       end
     end
@@ -36,16 +38,18 @@ module Jekyll
     
     class Box < BaseBlock
       def render(context)
+        content = super
         @options["class"].push "box"
-        content_tag(:div, class: @options["class"]) { buttonize(markdown(super)) }
+        content_tag(:div, class: @options["class"]) { buttonize(markdown(content)) }
       end
     end
 
     class Card < BaseBlock
 
       def render(context)
+        content = super
         @options["class"].push "card"
-        card { buttonize(markdown(super)) }
+        card { buttonize(markdown(content)) }
       end
     end
 
@@ -101,31 +105,77 @@ module Jekyll
         content = []
         contact = @data["contact"]
 
+        map_url = "https://www.google.com/maps/search/?api=1&query=#{contact["address"].join(' ')}"
+
         if @args.include?("address")
           street = contact["address"][0]
           match, city, state, zip = contact["address"][1].match(/(.+?),\s*(.+?)\s*(\d+)/).to_a
+          address = %Q{<span class="street-address">#{street}</span><br><span class="locality">#{city}</span>, <span class="region">#{state}</span> <span class="postal-code">#{zip}</span>}
 
-          content.push %Q{<a title="Get Directions" target="_blank" href="https://www.google.com/maps/search/?api=1&query=#{contact["address"].join(' ')}" class="adr"><span class="street-address">#{street}</span><br>
-<span class="locality">#{city}</span>, <span class="region">#{state}</span> <span class="postal-code">#{zip}</span></a>}
+          if @args.include?("link")
+            address = Esvg.use('location') + address if @args.include?("icon")
+
+            content.push link_to(address, map_url, class: 'contact-address adr has-tooltip', target: "_blank", "aria-label"=> "Get Directions")
+          else
+            content.push address
+          end
         end
 
-        if @args.include?("map")
-          content.push %Q{<a class="map-address" href="https://www.google.com/maps/search/?api=1&query=#{contact["address"].join(' ')}">Get directions &rarr;</a>}
+        if @args.include?("directions")
+          directions = "Get directions &rarr;"
+          directions = Esvg.use('location') + directions if @args.include?("icon")
+
+          content.push link_to(directions, map_url, class: 'contact-directions')
         end
 
         if @args.include?("phone")
-          content.push %Q{<a class="tel" href="tel:#{contact["phone"].gsub(/\(|\)/, '').split(/\D/).join('-')}">#{contact["phone"]}</a>}
+          phone = contact["phone"]
+          phone = Esvg.use('phone') + phone if @args.include?("icon")
+
+          content.push link_to(phone, "tel:#{contact["phone"].gsub(/\(|\)/, '').split(/\D/).join('-')}", class: 'contact-phone')
         end
 
         if @args.include?("group_phone")
-          content.push %Q{<a class="tel" href="tel:#{contact["group_phone"].gsub(/\(|\)/, '').split(/\D/).join('-')}">#{contact["group_phone"]}</a>}
+          phone = contact["group_phone"]
+          phone = Esvg.use('phone') + phone if @args.include?("icon")
+
+          content.push link_to(phone, "tel:#{contact["group_phone"].gsub(/\(|\)/, '').split(/\D/).join('-')}", class: 'contact-phone contact-group-phone')
         end
 
         if @args.include?("email")
-          content.push %Q{<a class="email" href="mailto:#{contact["email"]}">#{contact["email"]}</a>}
+          email = contact["email"]
+          email = Esvg.use('email') + email if @args.include?("icon")
+
+          content.push link_to(email, "mailto:#{contact["email"]}", class: 'contact-email')
         end
 
         content_tag(:span, class: 'vcard') { content.join("<br>") }
+      end
+
+    end
+
+    class Social < BaseTag
+      def render(context)
+        super
+
+        network = @args.first
+
+        if context[network]
+          url     = context[network].last
+          network = context[network].first
+        else
+          url     = @data["social"][network]
+        end
+
+        @options["class"].push "social-link has-tooltip"
+
+        if network && url
+          link_to(@options["url"], class: @options["class"], "aria-label" => network.capitalize) {
+            Esvg.use(network, class: 'social-icon')
+          }
+        else
+          raise "No social network configured for #{@args.first} in _data/social.yml"
+        end
       end
 
     end
@@ -141,3 +191,4 @@ Liquid::Template.register_tag('contact', Jekyll::Tags::Contact)
 #Liquid::Template.register_tag('markdown', Jekyll::Tags::Markdown)
 Liquid::Template.register_tag('box', Jekyll::Tags::Box)
 Liquid::Template.register_tag('hours', Jekyll::Tags::Hours)
+Liquid::Template.register_tag('social', Jekyll::Tags::Social)

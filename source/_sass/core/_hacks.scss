@@ -1,0 +1,7 @@
+svg, a {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+a svg {
+  vertical-align: text-bottom;
+}

@@ -1,0 +1,47 @@
+<footer class="page-footer park-info">
+  <div class='three-columns gutter match flex-after-small collapse-two'>
+
+    <div>
+      <h5>Park Hours</h5>
+      <p>{% hours %}</p>
+      <p><small>Groups may reserve outside regular hours.</small></p>
+    </div>
+
+    <div>
+      <h5>Contact & Directions</h5>
+      <p>{% contact address %}</p>
+      <ul class='contact'>
+        <li>{% contact directions icon %}</li>
+        <li>{% contact phone icon %}</li>
+        <li>{% contact email icon %}</li>
+      </ul>
+    </div>
+
+    <div>
+      <h5>Quick Links</h5>
+      <nav class='rows'>
+        {% link_to "Plan Your Trip", "#" %}
+        {% link_to "Join Our Team", "#" %}
+        {% link_to "Specials", "#" %}
+        {% link_to "About Us", "#" %}
+        {% link_to "Camping", "#" %}
+        {% link_to "FAQs", "#" %}
+      </nav>
+    </div>
+
+    <div>
+      <h5>Connect with us</h5>
+      <nav class='social'>
+        {% for network in site.data.social %}{% social network %}
+        {% endfor %}
+      </nav>
+    </div>
+
+    <div>
+      <h5>Join our Newsletter</h5>
+      {% include newsletter.html %}
+      <small>For news and special discounts</small>
+    </div>
+    
+  </div>
+</footer>

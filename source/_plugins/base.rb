@@ -24,6 +24,10 @@ module Jekyll
       end
 
       def process_args
+        @options = { "class" => [] }
+        @args = []
+        @text = []
+
         extract_args
 
         @options["title"] = @text[0]
@@ -149,13 +153,10 @@ module Jekyll
       def initialize(tag_name, markup, tokens)
         super
         @markup = markup
-        @options = { "class" => [] }
-        @args = []
-        @text = []
-        process_args
       end
 
       def render(context)
+        process_args
         @site = context.registers[:site]
         @page = context.registers[:page]
         @data = @site.data
@@ -169,13 +170,10 @@ module Jekyll
       def initialize(tag_name, markup, tokens)
         super
         @markup = markup
-        @options = { "class" => [] }
-        @args = []
-        @text = []
-        process_args
       end
 
       def render(context)
+        process_args
         @site = context.registers[:site]
         @page = context.registers[:page]
         @data = @site.data

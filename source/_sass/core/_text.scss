@@ -16,7 +16,7 @@ textarea {
   font-size: $base-size;
   font-family: $base-font;
   line-height: $base-line-height;
-  @include font-smoothing;
+  //@include font-smoothing;
 
   @include at-least($medium-width) {
     font-size: $base-size + 1;
@@ -24,6 +24,10 @@ textarea {
   @include at-least($max-width) {
     font-size: $base-size + 3;
   }
+}
+
+button {
+  cursor: pointer;
 }
 
 /* ===================================== *
@@ -157,6 +161,11 @@ button {
 
 a {
   //@include inline-link;
+  transition-duration: $duration;
+  transition-timing-function: $timing;
+  transition-property: color;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* ===================================== *

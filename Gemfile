@@ -17,7 +17,7 @@ gem "jekyll", "~> 3.8.3"
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.6"
-  gem "esvg", "~> 4.4.0"
+  gem "esvg", "~> 4.4.1"
 end
 
 group :development do

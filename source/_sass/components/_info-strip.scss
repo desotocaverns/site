@@ -1,0 +1,45 @@
+.page-footer {
+  @extend .container;
+
+  background: $gray-13;
+  color: $gray-08;
+
+  h5 { color: $gray-06; }
+  a:hover {
+    color: $gray-04;
+  }
+}
+
+ul.contact {
+  list-style: none;
+  padding-left: 0;
+
+  li {
+    line-height: 1.8rem;
+    word-break: none;
+    white-space: pre;
+  }
+
+  svg {
+    transition: $duration $timing opacity;
+    height: 1em;
+    fill: currentColor;
+    opacity: .5;
+  }
+
+  a {
+    text-decoration: none;
+    &:hover svg {
+      opacity: 1;
+    }
+  }
+}
+
+nav.social {
+  &:hover a {
+    opacity: .5;
+  }
+  &:hover a:hover {
+    opacity: 1;
+  }
+}

@@ -22,22 +22,19 @@ header {
   align-items: center;
   flex-flow: row wrap;
   display: flex;
-  min-height: 30vh;
+  min-height: 40vw;
 
   @include padded-max-width;
 
   @include at-least($small-width) {
-    min-height: 50vh;
     padding-bottom: 6vh;
   }
   @include at-least($medium-width) {
-    min-height: 70vh;
     padding-bottom: 6vh;
   }
   @include at-least($max-width) {
     padding-top: 8vh; 
     padding-bottom: 6vh;
-    min-height: 75vh;
   }
 
   .header-bg {
