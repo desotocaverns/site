@@ -1,27 +1,28 @@
 $nav-menu-width: 85vw;
-body {
+$nav-menu-height: 70px;
+.site-content {
+  width: 100%;
+  overflow-x: hidden;
+}
+.page-main {
   transition: $timing $duration transform;
   transform: translate3d(0,0,0);
-  &:before, &:after {
+  position: relative;
+
+  &:before {
     position: absolute;
     content: '';
     top: 0;
     bottom: 0;
-  }
-
-  &:before {
-    transition: $timing $duration box-shadow;
     left: 0;
     width: 100vw;
     z-index: -1;
     box-shadow: rgba(#000, 0) 0 0 40px 2px;
   }
-  &:after {
-    z-index: -2;
-    right: calc(100vw - 1px);
-    width: calc(#{$nav-menu-width} + 1px);
-    background: $nav-bg;
-  }
+}
+
+html {
+  background: $nav-bg;
 }
 
 .top-nav {
@@ -40,13 +41,15 @@ body {
     margin: 0 1em;
     color: $gray-08;
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 1.1em;
     &:hover { color: $gray-05; }
   }
 }
+
 .mobile-info {
   display: none;
   visibility: hidden;
+  
   .contact {
     li { padding: .4em 0; }
   }
@@ -57,15 +60,12 @@ body {
 
 @include until-small {
   .top-nav-container {
-    transform: translate3d(-$nav-menu-width, 0, 0);
-    width: 100vw + $nav-menu-width;
+    text-align: center;
+
     &:before {
       display: block;
-      content: "Site Navigation";
-      font-size: 1.4em;
-      color: $gray-03;
-      padding: 1.1em 0;
-      text-align: center;
+      content: "";
+      height: $nav-menu-height;
       width: $nav-menu-width;
     }
     &:before, .nav-block, .mobile-info {
@@ -75,9 +75,8 @@ body {
   }
 
   .top-nav {
-    height: 70px;
+    height: $nav-menu-height;
     overflow: visible;
-
 
     .nav-block {
       a {
@@ -95,7 +94,6 @@ body {
 
     .mobile-info {
       position: relative;
-      z-index: -1;
       max-width: $nav-menu-width;
       color: $gray-05;
       display: block;
@@ -107,12 +105,15 @@ body {
     }
 
     .logo {
+      top: 0;
       margin: 0;
       position: absolute;
-      top: 0;
       padding: 1em 0 .6em;
-      left: 27%;
-      transform: translate3d(calc(85vw - 50%), 0, 0);
+      left: calc(50% - 60px);
+      transform: translate3d(0, 0, 0);
+      transition-duration: $duration;
+      transition-timing-function: $timing;
+      transition-property: transform;
     }
 
     .nav-block {
@@ -120,7 +121,6 @@ body {
       display: flex;
       flex-flow: row wrap;
       position: relative;
-      z-index: -1;
 
       a {
         flex-basis: 100%;
@@ -130,40 +130,35 @@ body {
   }
 
   .show-nav {
-    width: 100vw;
-
-    .top-nav-container {
-      text-align: center;
-    }
-
-    body {
+    .page-main {
       transform: translate3d($nav-menu-width, 0, 0);
       &:before {
         box-shadow: rgba(#000, .8) 0 0 40px 4px;
         z-index: 2;
       }
     }
-    .top-nav-container:before, .mobile-info, .nav-block {
+    .mobile-info, .nav-block {
       opacity: 1;
     }
-    .toggle-nav {
-      transform: translate3d(-$nav-menu-width, 0, 0);
+    .logo {
+      transform: translate3d(-8vw, 0, 0)
     }
   }
 }
 
 @include at-small {
-  .nav-container {
+  .top-nav-container {
+    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2em 1em;
+    padding: 1.5em 1em;
   }
   .top-nav {
 
     .logo {
       position: relative;
-      bottom: -.5em;
+      bottom: -.3em;
     }
     .toggle-nav {
       display: none;

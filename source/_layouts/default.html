@@ -5,8 +5,10 @@
   {% include head.html %}
   <body>
     {% esvg %}
-    {% include nav.html %}
-    {{ content }}
+    <div class='site-content'>
+      {% include nav.html %}
+      <div class='page-main'>{{ content }}</div>
+    </div>
   </body>
   <script async="true" type="text/javascript" src="/javascripts/site.js"></script>
 </html>
