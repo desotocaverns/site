@@ -11,11 +11,65 @@ $medium-gutter: 20px;
 $large-gutter : 30px;
 $grid-columns      : 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve';
 
+
+// Use flex-basis to determine column widths
+@function calc-flex-basis($width, $gutter-size) {
+  @if $gutter-size == 0 {
+    @return #{100% / $width};
+  } @else {
+    @return calc(#{100% / $width} - #{$gutter-size});
+  }
+}
+
+// @include columns(6, large)
+@mixin columns($number, $gutter: true, $match: true, $flex-after: false, $flex-before: false) {
+  $columns: nth($grid-columns, $number);
+
+  @if $gutter != false  {
+
+    @if $gutter == true {
+      @extend %#{$columns}-columns-gutter;
+      @include gutter($match);
+    }
+    @else if $gutter == small {
+      @extend %#{$columns}-columns-#{$gutter}-gutter;
+      @include small-gutter($match)
+    }
+    @else if $gutter == large {
+      @extend %#{$columns}-columns-#{$gutter}-gutter;
+      @include large-gutter($match)
+    }
+
+  } @else {
+    @extend %#{$columns}-columns;
+  }
+
+  @extend %columns;
+
+  // Flex after: Single column until $flex-after
+  @if $flex-after != false {
+    @include until($flex-after) { > * { flex-basis: 100%; } }
+  }
+  // Flex before: Single column until $flex-before
+  @if $flex-before != false {
+    @include at-least($flex-before) { > * { flex-basis: 100%; } }
+  }
+}
+
+// Go to two column between
+@mixin collapse-columns($from, $to, $columns: 2, $gutter: $medium-gutter) {
+  @include between($from, $to){
+    > * {  flex-basis: calc-flex-basis($columns, $gutter);  }
+  }
+}
+
 // Horizontal gutter mixin
 @mixin horizontal-gutter($amount) {
+  // Pulls left and right to line up flush with other elements
   margin-left:  -$amount / 2;
   margin-right: -$amount / 2;
 
+  // Children receive half margin on left and right
   > * {
     margin-left:  $amount / 2;
     margin-right: $amount / 2;
@@ -24,8 +78,10 @@ $grid-columns      : 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eig
 
 // Vertical gutter mixin
 @mixin vertical-gutter($amount) {
+  // Pulls up to account for children's gutter margin
   margin-bottom: -$amount;
 
+  // Children receive a bottom margin for consistent gutters
   > * {
     margin-bottom: $amount;
   }
@@ -35,54 +91,60 @@ $grid-columns      : 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eig
  * Common
  * ------------------------------------- */
 
-// Columns container
-[class*='columns'] {
+// Columns container anything-columns, columns, one-columns, two-columns, etc
+%columns, [class*='columns'] {
   display: flex;
   flex-flow: row wrap;
 
-  > * { @extend .collapse-bottom; }
+  // Kills bottom margin on last-child elements, to make gutters look good.
+  > * { @include collapse-bottom; }
 }
 
-// Rows container
+// Rows container, anything-rows, rows, one-rows, two-rows, etc
 [class*='rows'] {
   display: flex;
   flex-flow: column;
   align-items: flex-start;
 
-  > * { @extend .collapse; }
+  // Kills top and bottom margin on last-child elements, to make gutters look good.
+  > * { 
+    @include collapse-top;
+    @include collapse-bottom;
+  }
 }
 
-// Top-align columns in certain contexts
-form [class*='columns'] {
-  align-items: flex-start;
-}
-
-// Normal gutter
-.gutter {
+// Gutters: Add margins for different size gutters
+//
+// Standard gutter
+@mixin gutter($match: true) {
   @include horizontal-gutter($medium-gutter);
 
-  &.match {
+  @if $match {
     @include vertical-gutter($medium-gutter);
   }
 }
 
 // Small gutter
-.small-gutter {
+@mixin small-gutter($match: true) {
   @include horizontal-gutter($small-gutter);
 
-  &.match {
+  @if $match {
     @include vertical-gutter($small-gutter);
   }
 }
 
 // Large gutter
-.large-gutter {
+@mixin large-gutter($match: true) {
   @include horizontal-gutter($large-gutter);
 
-  &.match {
+  @if $match {
     @include vertical-gutter($large-gutter);
   }
 }
+
+.gutter { @include gutter; }
+.small-gutter { @include small-gutter; }
+.large-gutter { @include large-gutter; }
 
 // Flexible columns
 .flex {
@@ -94,31 +156,6 @@ form [class*='columns'] {
   flex-grow: 1;
 }
 
-.flex-row {
-  display: flex;
-
-  // Add gutter between top level elements
-  &:not(.no-gutter) {
-    > * ~ * {
-      margin-left: 8px;
-    }
-  }
-  &.medium-gutter {
-    > * ~ * {
-      margin-left: $card-padding;
-    }
-  }
-}
-
-@function calc-basis($width, $gutter-size) {
-  @if $gutter-size == 0 {
-    @return #{100% / $width};
-  } @else {
-    @return calc(#{100% / $width} - #{$gutter-size});
-  }
-}
-
-
 // Loop through columns
 @for $a from 1 through length($grid-columns) {
 
@@ -127,33 +164,49 @@ form [class*='columns'] {
   $number: nth($grid-columns, $a); // Number of columns as word (1: one)
 
   // Placeholders for reduced CSS output
+  // Span is not column widths, it counts how many columns are spanned
   // examples: span-one is a column with 100% width
-  //           span-two has 50% width (minus gutters)
-  //           span-four has 25% width (minus gutters)
+  //           span-two   has 50% width (minus gutters)
+  //           span-three has 25% width (minus gutters)
   //
-  %span-#{$number} /* No gutter */ { flex-basis: calc-basis(($total / $a), 0) }
-  %span-#{$number}-gutter          { flex-basis: calc-basis(($total / $a), $medium-gutter); }
-  %span-#{$number}-small-gutter    { flex-basis: calc-basis(($total / $a), $small-gutter); }
-  %span-#{$number}-large-gutter    { flex-basis: calc-basis(($total / $a), $large-gutter); }
+  %span-#{$number} /* No gutter */ { flex-basis: calc-flex-basis(($total / $a), 0) }
+  %span-#{$number}-gutter          { flex-basis: calc-flex-basis(($total / $a), $medium-gutter); }
+  %span-#{$number}-small-gutter    { flex-basis: calc-flex-basis(($total / $a), $small-gutter); }
+  %span-#{$number}-large-gutter    { flex-basis: calc-flex-basis(($total / $a), $large-gutter); }
 
   // If number of columns is a factor of total columns.
   @if $total % $a == 0 {
     $columns: nth($grid-columns, ($total / $a)); // Column divisions for this number
 
-    // Container-declared columns
+    // Set widths for children of column classes
+    // one-columns extends %span-twelve; because a one-columns grid will span all 12 columns
+    // two-columns extends %span-six, three: %span-four, four: %span-three
+    //
+    // This means in a .six-column grid, each direct decendent spans two columns: 2*6=12
+    // .six-column.gutter will adjust the margins to account for the width of the gutters.
+    //
+    %#{$number}-columns              { > * { @extend %span-#{$columns}; } }
+    %#{$number}-columns-gutter       { > * { @extend %span-#{$columns}-gutter; } }
+    %#{$number}-columns-small-gutter { > * { @extend %span-#{$columns}-small-gutter; } }
+    %#{$number}-columns-large-gutter { > * { @extend %span-#{$columns}-large-gutter; } }
+
     .#{$number}-columns {
-      /* No gutter */ > * { @extend %span-#{$columns}; }
-      &.gutter        > * { @extend %span-#{$columns}-gutter; }
-      &.small-gutter  > * { @extend %span-#{$columns}-small-gutter; }
-      &.large-gutter  > * { @extend %span-#{$columns}-large-gutter; }
+      @extend %#{$number}-columns;
+
+      &.gutter        { @extend %#{$number}-columns-gutter; }
+      &.small-gutter  { @extend %#{$number}-columns-small-gutter; }
+      &.large-gutter  { @extend %#{$number}-columns-large-gutter; }
     }
+    
   }
 
-  // Loop through columns starting at current column
+  // Create classnames for width-specified columns
+  // Example: .two-of-twelve will span two columns, instead of one by default.
+  //          .three-of-six will span six columns (of a twleve column default).
   @for $b from $a through $total {
 
     // Create width based classnames for a column
-    // example: one-of-two, three-of-twelve
+    // example: .one-of-two, .three-of-twelve
     @if $total % $b == 0 {
 
       // How many columns should this span?
@@ -162,8 +215,10 @@ form [class*='columns'] {
       
       // Derive the number of columns this percentage should span
       // Let's say that $a: 3, and $b: 4, and $total: 12
+      // $column-span will equal 'three-of-four'
+      //
       $columns: $total * ($a / $b);        // $columns: 9; because 3/4 * 12 == 9
-      $key: nth($grid-columns, $columns); // $actual: 'nine'
+      $key: nth($grid-columns, $columns);  // $actual: 'nine'
 
       // Now this will extend the span-nine placeholders
       /* No gutter */ > .#{$column-span} { @extend %span-#{$key}; }
@@ -174,47 +229,13 @@ form [class*='columns'] {
   }
 }
 
-[class*='columns'] {
-  /* No gutter */ .span { flex-basis: calc-basis(1, 0) }
-  .gutter       > .span { flex-basis: calc-basis(1, $medium-gutter) }
-  .small-gutter > .span { flex-basis: calc-basis(1, $small-gutter) }
-  .large-gutter > .span { flex-basis: calc-basis(1, $large-gutter) }
-
-  // Breakpoints
-  @include until-x-small {
-    &.flex-after-x-small > * { flex-basis: 100%; }
-  }
-
-  @include until-small {
-    &.flex-after-small > * { flex-basis: 100%; }
-  }
-
-  @include until-medium {
-    &.flex-after-medium > * { flex-basis: 100%; }
-  }
-
-  @include at-x-small {
-    &.flex-until-x-small > * { flex-basis: 100%; }
-  }
-
-  @include at-small {
-    &.flex-until-small > * { flex-basis: 100%; }
-  }
-
-  @include at-medium {
-    &.flex-until-medium > * { flex-basis: 100%; }
-  }
-
-  @include between($x-small-width, $small-width) {
-    &.collapse-two {
-      /* No gutter */  > * { flex-basis: calc-basis(2, 0) }
-      &.gutter         > * { flex-basis: calc-basis(2, $medium-gutter) }
-      &.small-gutter   > * { flex-basis: calc-basis(2, $small-gutter) }
-      &.large-gutter   > * { flex-basis: calc-basis(2, $large-gutter) }
-    }
-  }
+// Use .span to create a full width element inside of a grid
+%columns, [class*='columns'] {
+  /* No gutter */ .span { flex-basis: calc-flex-basis(1, 0) }
+  .gutter       > .span { flex-basis: calc-flex-basis(1, $medium-gutter) }
+  .small-gutter > .span { flex-basis: calc-flex-basis(1, $small-gutter) }
+  .large-gutter > .span { flex-basis: calc-flex-basis(1, $large-gutter) }
 }
-
 
 /* ===================================== *
  * Vertical alignment

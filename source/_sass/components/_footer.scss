@@ -1,3 +1,9 @@
+.footer-columns {
+  @include columns(3, $flex-after: $x-small-width);
+  // Collapse to 2 column
+  @include collapse-columns($x-small-width, $small-width);
+}
+
 .page-footer {
   @extend .container;
 
